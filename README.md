@@ -1,4 +1,3 @@
-````markdown
 # Desafio de implementação - Clean Arch
 
 Este desafio envolve a criação de um usecase para listagem de orders utilizando diferentes abordagens: REST, gRPC e GraphQL.
