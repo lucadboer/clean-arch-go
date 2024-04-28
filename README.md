@@ -14,7 +14,6 @@ Este desafio envolve a criação de um usecase para listagem de orders utilizand
 ```bash
 docker-compose up -d
 ```
-````
 
 2. **Migrações**: Crie as migrações necessárias para a tabela `orders` no banco de dados MySQL. Você pode usar uma ferramenta como `Flyway`, `GORM` ou outra de sua preferência para gerenciar as migrações.
 
