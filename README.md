@@ -15,27 +15,13 @@ Este desafio envolve a criação de um usecase para listagem de orders utilizand
 docker-compose up -d
 ```
 
-2. **Migrações**: Crie as migrações necessárias para a tabela `orders` no banco de dados MySQL. Você pode usar uma ferramenta como `Flyway`, `GORM` ou outra de sua preferência para gerenciar as migrações.
-
-Exemplo de migração para criar a tabela `orders`:
-
-```sql
-CREATE TABLE orders (
-    id VARCHAR(255) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    tax DECIMAL(10, 2) NOT NULL,
-    final_price DECIMAL(10, 2) NOT NULL,
-    PRIMARY KEY (id)
-);
-```
-
-3. **Desenvolvimento**:
+2. **Desenvolvimento**:
 
 - **REST Endpoint**: Crie um endpoint GET `/order` para listar todas as orders.
 - **Service ListOrders com GRPC**: Implemente um serviço gRPC para listar as orders.
 - **Query ListOrders GraphQL**: Implemente uma query GraphQL para listar as orders.
 
-4. **Arquivo `order.http`**: Inclua um arquivo `order.http` com requests de exemplo para criar e listar orders. Exemplo:
+3. **Arquivo `order.http`**: Inclua um arquivo `order.http` com requests de exemplo para criar e listar orders. Exemplo:
 
 ```http
 POST http://localhost:8000/order HTTP/1.1
