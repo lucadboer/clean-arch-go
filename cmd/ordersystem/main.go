@@ -21,7 +21,32 @@ import (
 
 	// mysql
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/mysql"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
+
+func migrateDB(db *sql.DB, dbName string) {
+	driver, err := mysql.WithInstance(db, &mysql.Config{})
+	if err != nil {
+		panic(err)
+	}
+
+	m, err := migrate.NewWithDatabaseInstance(
+		"file://migrations",
+		dbName,
+		driver,
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		panic(err)
+	}
+
+	fmt.Println("Database migrated successfully!")
+}
 
 func main() {
 	configs, err := configs.LoadConfig(".")
@@ -34,6 +59,8 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+
+	migrateDB(db, configs.DBName)
 
 	rabbitMQChannel := getRabbitMQChannel()
 
@@ -66,7 +93,7 @@ func main() {
 
 	srv := graphql_handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		CreateOrderUseCase: *createOrderUseCase,
-		ListOrdersUseCase:   *listOrderUseCase,
+		ListOrdersUseCase:  *listOrderUseCase,
 	}}))
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
